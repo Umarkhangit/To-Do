@@ -9,7 +9,12 @@ const CompletedTasks = ({ tasks, handleDelete }) => {
       {
         tasks.length > 0 && tasks !== null ?
           tasks?.map((val, index) => val.completed === true ?
-            <div key={index} className='completeDiv'><p style={{ color: "grey" }}>{val.task}</p><Popconfirm title="Are you sure to delete this task?" onConfirm={() => handleDelete(val.id)} okText="Yes" cancelText="No"><DeleteFilled style={{ cursor: "pointer", color: "#bd0033" }} /></Popconfirm></div> : null)
+            <div key={index} className='completeDiv'>
+              <p style={{ color: "grey" }}>{val.task}</p>
+              <Popconfirm title="Are you sure to delete this task?" onConfirm={() => handleDelete(val.id)} okText="Yes" cancelText="No">
+                <DeleteFilled style={{ cursor: "pointer", color: "#bd0033" }} />
+              </Popconfirm>
+            </div> : null)
           : <div style={{ color: "grey" }}>No completed tasks</div>
       }
     </div>

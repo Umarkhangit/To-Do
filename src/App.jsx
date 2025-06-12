@@ -1,89 +1,139 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import './App.css';
 import TaskLists from './components/TaskLists';
 import CompletedTasks from './components/CompletedTasks';
 import { message } from 'antd';
-import axios from 'axios';
+// import axios from 'axios';
 
 function App() {
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState([
+    {
+      "id": "0",
+      "task": "Next js",
+      "completed": false
+    },
+    {
+      "id": "1",
+      "task": "Python",
+      "completed": false
+    },
+    {
+      "id": "2",
+      "task": "AI and ML",
+      "completed": false
+    }
+  ]);
   const [taskInput, setTaskInput] = useState('');
   const [isEdit, setIsEdit] = useState({ editId: null, editText: "" });
 
-  useEffect(() => { fetchTasks(); }, []);
+  // useEffect(() => { fetchTasks(); }, []);
 
-  const fetchTasks = async () => {
-    try {
-      const response = await axios.get('http://localhost:3001/tasks');
-      setTasks(response.data);
-    } catch (error) {
-      console.error('Error fetching tasks:', error);
-    }
-  };
+  // const fetchTasks = async () => {
+  //   try {
+  //     const response = await axios.get('http://localhost:3001/tasks');
+  //     setTasks(response.data);
+  //   } catch (error) {
+  //     console.error('Error fetching tasks:', error);
+  //   }
+  // };
 
   const handleChange = e => setTaskInput(e.target.value);
 
   const handleAdd = async () => {
-    if (taskInput.trim() !== '') {
-      const newTask = {
-        id: tasks.length.toString(),
-        task: taskInput,
-        completed: false
-      };
 
-      try {
-        await axios.post('http://localhost:3001/tasks', newTask);
-        fetchTasks();
-        message.success('Task added successfully');
-      }
-      catch (error) {
-        console.error('Error adding task', error);
-      }
-
-      setTaskInput('');
+    if (taskInput.trim() === '') {
+      message.error('Please enter a task');
+      return;
     }
+    const newTask = {
+      id: tasks.length.toString(),
+      task: taskInput,
+      completed: false
+    };
 
-    else alert('Please enter a task');
+    setTasks([...tasks, newTask]);
+    setTaskInput('');
+
+
+    // if (taskInput.trim() !== '') {
+    //   const newTask = {
+    //     id: tasks.length.toString(),
+    //     task: taskInput,
+    //     completed: false
+    //   };
+
+    //   try {
+    //     await axios.post('http://localhost:3001/tasks', newTask);
+    //     fetchTasks();
+    //     message.success('Task added successfully');
+    //   }
+    //   catch (error) {
+    //     console.error('Error adding task', error);
+    //   }
+
+    //   setTaskInput('');
+    // }
+
+    // else alert('Please enter a task');
   }
 
   const handleEditChange = e => setIsEdit({ ...isEdit, editText: e.target.value });
 
   const handleEditSave = async id => {
-    try {
-      await axios.patch(`http://localhost:3001/tasks/${id}`, { task: isEdit.editText });
-      fetchTasks();
-      message.success('Task updated successfully');
-    }
-    catch (error) {
-      console.error('Error updating task', error);
-    }
+    const updatedTasks = tasks.map(task => {
+      if (task.id === id) {
+        return { ...task, task: isEdit.editText };
+      }
+      return task;
+    });
+    setTasks(updatedTasks);
 
     setIsEdit({ ...isEdit, editId: null, editText: "" });
+
+
+    // try {
+    //   await axios.patch(`http://localhost:3001/tasks/${id}`, { task: isEdit.editText });
+    //   fetchTasks();
+    //   message.success('Task updated successfully');
+    // }
+    // catch (error) {
+    //   console.error('Error updating task', error);
+    // }
+
   }
 
   const handleCheck = async (e, id) => {
     let checked = e.target.checked;
-    try {
-      await axios.patch(`http://localhost:3001/tasks/${id}`, { completed: checked === true ? true : false });
-      message.success('Task completed successfully');
-    }
-    catch (error) {
-      console.error('Error updating task', error);
-    }
+    const updatedTasks = tasks.map(task => {
+      if (task.id === id) {
+        return { ...task, completed: checked };
+      }
+      return task;
+    });
+    setTasks(updatedTasks);
+    message.success('Task completed successfully');
+    // try {
+    //   await axios.patch(`http://localhost:3001/tasks/${id}`, { completed: checked === true ? true : false });
+    //   message.success('Task completed successfully');
+    // }
+    // catch (error) {
+    //   console.error('Error updating task', error);
+    // }
 
-    fetchTasks();
+    // fetchTasks();
   }
 
   const handleDelete = async id => {
-    try {
-      await axios.delete(`http://localhost:3001/tasks/${id}`);
-      fetchTasks();
-    }
-    catch (error) {
-      console.error('Error deleting task', error);
-    }
-
+    const updatedTasks = tasks.filter(task => task.id !== id);
+    setTasks(updatedTasks);
     message.success('Task deleted successfully');
+    // try {
+    //   await axios.delete(`http://localhost:3001/tasks/${id}`);
+    //   fetchTasks();
+    // }
+    // catch (error) {
+    //   console.error('Error deleting task', error);
+    // }
   }
 
 
