@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import './App.css';
 import TaskLists from './components/TaskLists';
-import CompletedTasks from './components/CompletedTasks';
+// import CompletedTasks from './components/CompletedTasks';
 import { message } from 'antd';
+import { CheckSquareOutlined } from '@ant-design/icons';
 // import axios from 'axios';
 
 function App() {
@@ -142,8 +143,11 @@ function App() {
       <div className='container'>
         <TaskLists tasks={tasks} taskInput={taskInput} handleCheck={handleCheck} handleChange={handleChange} handleAdd={handleAdd} isEdit={isEdit}
           setIsEdit={setIsEdit} handleEditChange={handleEditChange} handleEditSave={handleEditSave} handleDelete={handleDelete} />
-        <CompletedTasks tasks={tasks} handleDelete={handleDelete} />
+       
+        {/* <CompletedTasks tasks={tasks} handleDelete={handleDelete} /> */}
       </div>
+
+      <CheckSquareOutlined id='completed-tasks-icon'/>
     </>
 
   );

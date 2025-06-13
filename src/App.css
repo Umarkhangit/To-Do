@@ -1,7 +1,7 @@
-.container {
+/* .container {
   display: flex;
-  margin: 1% 2%;
-}
+  justify-content: center;
+} */
 
 .title {
   font-size: 2em;
@@ -22,4 +22,14 @@
   font-size: 20px;
   display: flex;
   justify-content: space-between;
+}
+
+#completed-tasks-icon {
+  color: royalblue;
+  font-size: 30px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin: 10px;
+  cursor: pointer;
 }
