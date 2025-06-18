@@ -4,7 +4,7 @@ import { PlusOutlined, EditOutlined, DeleteFilled, CheckOutlined, CloseOutlined 
 const TaskLists = ({ tasks, taskInput, handleCheck, handleChange, handleAdd, handleEditChange, handleEditSave, isEdit, setIsEdit, handleDelete }) => {
 
   return (
-    <div style={{ width: "70vw", height: "95vh",margin:"auto"}}>
+    <div className='taskListContainer'>
       <p className='title'><span style={{ color: "#457b9d" }}>To-</span><span className='todoTitle'>Do it</span></p>
       <Input placeholder="Add a new task" variant='filled' className='input' size='large' onChange={handleChange} value={taskInput} />
       <Button shape='circle' icon={<PlusOutlined />} onClick={handleAdd} size='large' style={{ marginLeft: "20px" }}></Button>
@@ -12,7 +12,7 @@ const TaskLists = ({ tasks, taskInput, handleCheck, handleChange, handleAdd, han
         {
           tasks.length > 0 && tasks !== null ?
             tasks?.map((val, index) => val.completed === false ?
-              <div key={index}>
+              <div key={index}  className='taskDiv'>
                 {isEdit.editId === val.id ?
                   (<>
                     <Input type='text' value={isEdit.editText} onChange={(e) => handleEditChange(e, val.id)} variant='underlined' style={{ width: "40%", marginTop: "20px", marginLeft: "10px" }} />

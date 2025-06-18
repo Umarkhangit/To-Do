@@ -1,8 +1,8 @@
-/* .container {
-  display: flex;
-  justify-content: center;
-} */
-
+.taskListContainer{
+  width: 75vw;
+  height: 95vh;
+  margin: auto ;
+}
 .title {
   font-size: 2em;
 }
@@ -32,4 +32,38 @@
   top: 0;
   margin: 10px;
   cursor: pointer;
+}
+
+@media screen and (max-width: 600px) {
+  .taskListContainer {
+    width: 100vw;
+    height: 100vh;
+    margin: 5px;
+  }
+  
+  .input {
+    width: 83%;
+  }
+  
+  #completed-tasks-icon {
+    font-size: 25px;
+    margin: 5px;
+  }
+  
+  .completeDiv {
+    font-size: 18px;
+  }
+  
+  .title {
+    font-size: 1.5em;
+  }
+  
+  .todoTitle {
+    padding: 2px;
+  }
+
+  .taskDiv{
+    display: flex;
+    justify-content: space-between;
+  }
 }

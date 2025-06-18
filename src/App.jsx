@@ -2,30 +2,15 @@ import { useState } from 'react';
 import './App.css';
 import TaskLists from './components/TaskLists';
 // import CompletedTasks from './components/CompletedTasks';
-import { message } from 'antd';
-import { CheckSquareOutlined } from '@ant-design/icons';
+import { message, Drawer, Tooltip, Popconfirm } from 'antd';
+import { CheckSquareOutlined, DeleteFilled } from '@ant-design/icons';
 // import axios from 'axios';
 
 function App() {
-  const [tasks, setTasks] = useState([
-    {
-      "id": "0",
-      "task": "Next js",
-      "completed": false
-    },
-    {
-      "id": "1",
-      "task": "Python",
-      "completed": false
-    },
-    {
-      "id": "2",
-      "task": "AI and ML",
-      "completed": false
-    }
-  ]);
+  const [tasks, setTasks] = useState([]);
   const [taskInput, setTaskInput] = useState('');
   const [isEdit, setIsEdit] = useState({ editId: null, editText: "" });
+  const [open, setOpen] = useState(false);
 
   // useEffect(() => { fetchTasks(); }, []);
 
@@ -113,6 +98,8 @@ function App() {
     });
     setTasks(updatedTasks);
     message.success('Task completed successfully');
+
+
     // try {
     //   await axios.patch(`http://localhost:3001/tasks/${id}`, { completed: checked === true ? true : false });
     //   message.success('Task completed successfully');
@@ -128,6 +115,8 @@ function App() {
     const updatedTasks = tasks.filter(task => task.id !== id);
     setTasks(updatedTasks);
     message.success('Task deleted successfully');
+
+
     // try {
     //   await axios.delete(`http://localhost:3001/tasks/${id}`);
     //   fetchTasks();
@@ -137,19 +126,35 @@ function App() {
     // }
   }
 
-
   return (
     <>
-      <div className='container'>
         <TaskLists tasks={tasks} taskInput={taskInput} handleCheck={handleCheck} handleChange={handleChange} handleAdd={handleAdd} isEdit={isEdit}
           setIsEdit={setIsEdit} handleEditChange={handleEditChange} handleEditSave={handleEditSave} handleDelete={handleDelete} />
        
         {/* <CompletedTasks tasks={tasks} handleDelete={handleDelete} /> */}
-      </div>
+      
 
-      <CheckSquareOutlined id='completed-tasks-icon'/>
+      <Tooltip title="Completed Tasks" placement="left">
+        <CheckSquareOutlined id='completed-tasks-icon' onClick={() => setOpen(true)} />
+      </Tooltip>
+
+      <Drawer
+        title={<p style={{ color: "#457b9d", fontSize:'1.5em' }}>Completed Tasks</p>}
+        size='large'
+        onClose={() => setOpen(false)}
+        open={open}
+      >
+        {
+          tasks?.map((val, index) => val.completed === true ?
+            <div key={index} className='completeDiv'>
+              <p style={{ color: "grey" }}>{val.task}</p>
+              <Popconfirm title="Are you sure to delete this task?" onConfirm={() => handleDelete(val.id)} okText="Yes" cancelText="No">
+                <DeleteFilled style={{ cursor: "pointer", color: "#bd0033" }} />
+              </Popconfirm>
+            </div> : null)
+        }
+      </Drawer>
     </>
-
   );
 }
 
