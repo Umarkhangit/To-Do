@@ -1,6 +1,9 @@
 .taskListContainer {
   width: 75vw;
   height: 95vh;
+  max-height: 730px;
+  overflow: hidden;
+  overflow-y: scroll;
   margin: auto;
 }
 
@@ -59,14 +62,28 @@
   width: 55vw;
 }
 
+.taskCheckbox{
+  font-size: 20px;
+  margin-top: 20px;
+}
+
+#taskDate{
+  font-size: 18px;
+  margin-top: 20px;
+  margin-left: 25px;
+}
+
 @media screen and (max-width: 600px) {
   .taskListContainer {
     width: 100vw;
     height: 100vh;
+    max-height: 610px;
+    overflow: hidden;
+    overflow-y: scroll;
   }
 
   .input {
-    width: 83%;
+    width: 78%;
   }
 
   #completed-tasks-icon {
@@ -75,7 +92,8 @@
   }
 
   .completeDiv {
-    font-size: 18px;
+    font-size: 14px;
+    word-wrap: break-word;
   }
 
   .title {
@@ -92,10 +110,17 @@
   }
 
   .taskIcons {
-    margin-top: 3px;
+    margin-top: 5px;
   }
 
   .taskCheckbox {
     margin-left: 5px;
+    font-size: 14px;
+    word-wrap: break-word;
+  }
+
+  #taskDate{
+    font-size: 14px;
+    margin-left: 10px;
   }
 }

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './App.css';
 import TaskLists from './components/TaskLists';
-import { message, Drawer, Tooltip, Popconfirm } from 'antd';
+import { message, Drawer, Popconfirm } from 'antd';
 import { CheckSquareOutlined, DeleteFilled } from '@ant-design/icons';
 
 function App() {
@@ -68,9 +68,7 @@ function App() {
       <TaskLists tasks={tasks} taskInput={taskInput} handleCheck={handleCheck} handleChange={handleChange} handleAdd={handleAdd} isEdit={isEdit}
         setIsEdit={setIsEdit} handleEditChange={handleEditChange} handleEditSave={handleEditSave} handleDelete={handleDelete}/>
 
-      <Tooltip title="Completed Tasks" placement="left">
-        <CheckSquareOutlined id='completed-tasks-icon' onClick={() => setOpen(true)} />
-      </Tooltip>
+      <CheckSquareOutlined id='completed-tasks-icon' onClick={() => setOpen(true)} />
 
       <Drawer
         title={<p style={{ color: "#457b9d", fontSize: '1.5em' }}>Completed Tasks</p>}

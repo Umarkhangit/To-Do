@@ -4,12 +4,24 @@ import { PlusOutlined, EditOutlined, DeleteFilled, CheckOutlined, CloseOutlined,
 
 const TaskLists = ({ tasks, taskInput, handleCheck, handleChange, handleAdd, handleEditChange, handleEditSave, isEdit, setIsEdit, handleDelete}) => {
 
-  const input = document.getElementById("taskInput").val()
-  console.log(input)
+  const keyDownAdd = (e) => {
+    if(e.key === "Enter"){
+      e.preventDefault()
+      handleAdd()
+    }
+  }
+  
+  const keyDownEdit = (e, id) => {
+    if(e.key === "Enter"){
+      e.preventDefault()      
+      handleEditSave(id)
+    }
+  }
+
   return (
     <div className='taskListContainer'>
       <p className='title'><span style={{ color: "#457b9d" }}>To-</span><span className='todoTitle'>Do it</span></p>
-      <Input placeholder="Add a new task" variant='filled' className='input' size='large' onChange={handleChange} value={taskInput} type='text' id='taskInput'/>
+      <Input placeholder="Add a new task" variant='filled' className='input' size='large' onChange={handleChange} value={taskInput} type='text' onKeyDown={keyDownAdd}/>
       <Button shape='circle' icon={<PlusOutlined />} onClick={handleAdd} size='large' style={{ marginLeft: "20px" }}></Button>
 
       <div>
@@ -19,7 +31,7 @@ const TaskLists = ({ tasks, taskInput, handleCheck, handleChange, handleAdd, han
               <div key={index} className='taskDiv'>
                 {isEdit.editId === val.id ?
                   (<>
-                    <Input type='text' value={isEdit.editText} onChange={(e) => handleEditChange(e, val.id)} variant='underlined' style={{ width: "40%", marginTop: "20px", marginLeft: "10px" }} />
+                    <Input type='text' value={isEdit.editText} onChange={(e) => handleEditChange(e, val.id)} variant='underlined' style={{ width: "90%", marginTop: "20px", marginLeft: "10px" }} onKeyDown={(e)=>keyDownEdit(e, val.id)}/>
                     <div className="taskIcons">
                       <CheckOutlined style={{ marginLeft: "25%", cursor: "pointer", color: "royalblue" }} onClick={() => handleEditSave(val.id)} />
                       <CloseOutlined style={{ marginLeft: "10px", cursor: "pointer", color: "#bd0033" }} onClick={() => setIsEdit({ isEdit, editId: null, editText: "" })} />
@@ -27,8 +39,8 @@ const TaskLists = ({ tasks, taskInput, handleCheck, handleChange, handleAdd, han
                   </>)
                   : (<>
                     <div className='taskText'>
-                      <Checkbox style={{ fontSize: "20px", marginTop: "20px" }} onChange={(e) => handleCheck(e, val.id)} className="taskCheckbox">{val.task} </Checkbox>
-                      {val.date?<div style={{fontSize:"18px", marginTop:"20px", marginLeft:"25px"}}><CalendarOutlined style={{color:"royalblue", marginRight:"10px"}}/>{val.date}</div>:null}
+                      <Checkbox onChange={(e) => handleCheck(e, val.id)} className="taskCheckbox">{val.task} </Checkbox>
+                      {val.date?<div style={{}} id='taskDate'><CalendarOutlined style={{color:"royalblue", marginRight:"10px"}}/>{val.date}</div>:null}
                     </div>
                     <div className="taskIcons">
                       <EditOutlined style={{ marginLeft: "55%", cursor: "pointer", color: "royalblue" }} onClick={() => setIsEdit({ ...isEdit, editId: val.id, editText: val.task })} />
