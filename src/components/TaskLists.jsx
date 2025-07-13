@@ -1,12 +1,15 @@
 import { Input, Button, Checkbox, Popconfirm } from 'antd';
-import { PlusOutlined, EditOutlined, DeleteFilled, CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import { PlusOutlined, EditOutlined, DeleteFilled, CheckOutlined, CloseOutlined, CalendarOutlined } from '@ant-design/icons';
 
-const TaskLists = ({ tasks, taskInput, handleCheck, handleChange, handleAdd, handleEditChange, handleEditSave, isEdit, setIsEdit, handleDelete }) => {
 
+const TaskLists = ({ tasks, taskInput, handleCheck, handleChange, handleAdd, handleEditChange, handleEditSave, isEdit, setIsEdit, handleDelete}) => {
+
+  const input = document.getElementById("taskInput").val()
+  console.log(input)
   return (
     <div className='taskListContainer'>
       <p className='title'><span style={{ color: "#457b9d" }}>To-</span><span className='todoTitle'>Do it</span></p>
-      <Input placeholder="Add a new task" variant='filled' className='input' size='large' onChange={handleChange} value={taskInput} />
+      <Input placeholder="Add a new task" variant='filled' className='input' size='large' onChange={handleChange} value={taskInput} type='text' id='taskInput'/>
       <Button shape='circle' icon={<PlusOutlined />} onClick={handleAdd} size='large' style={{ marginLeft: "20px" }}></Button>
 
       <div>
@@ -23,7 +26,10 @@ const TaskLists = ({ tasks, taskInput, handleCheck, handleChange, handleAdd, han
                     </div>
                   </>)
                   : (<>
-                    <Checkbox style={{ fontSize: "20px", marginTop: "20px" }} onChange={(e) => handleCheck(e, val.id)} className="taskCheckbox">{val.task}</Checkbox>
+                    <div className='taskText'>
+                      <Checkbox style={{ fontSize: "20px", marginTop: "20px" }} onChange={(e) => handleCheck(e, val.id)} className="taskCheckbox">{val.task} </Checkbox>
+                      {val.date?<div style={{fontSize:"18px", marginTop:"20px", marginLeft:"25px"}}><CalendarOutlined style={{color:"royalblue", marginRight:"10px"}}/>{val.date}</div>:null}
+                    </div>
                     <div className="taskIcons">
                       <EditOutlined style={{ marginLeft: "55%", cursor: "pointer", color: "royalblue" }} onClick={() => setIsEdit({ ...isEdit, editId: val.id, editText: val.task })} />
                       <Popconfirm title="Are you sure to delete this task?" onConfirm={() => handleDelete(val.id)} okText="Yes" cancelText="No">

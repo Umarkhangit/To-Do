@@ -12,16 +12,20 @@ function App() {
 
   const handleChange = e => setTaskInput(e.target.value);
 
-  const handleAdd = async () => {
+  const handleAdd = () => {
 
     if (taskInput.trim() === '') {
       message.error('Please enter a task');
       return;
     }
+
+    const today = new Date().getDate()
+    const month = new Date().getMonth()
     const newTask = {
       id: tasks.length.toString(),
       task: taskInput,
-      completed: false
+      completed: false,
+      date: `${today}/${month}`
     };
 
     setTasks([...tasks, newTask]);
@@ -30,7 +34,7 @@ function App() {
 
   const handleEditChange = e => setIsEdit({ ...isEdit, editText: e.target.value });
 
-  const handleEditSave = async id => {
+  const handleEditSave = id => {
     const updatedTasks = tasks.map(task => {
       if (task.id === id) return { ...task, task: isEdit.editText };
 
@@ -41,7 +45,7 @@ function App() {
     setIsEdit({ ...isEdit, editId: null, editText: "" });
   }
 
-  const handleCheck = async (e, id) => {
+  const handleCheck = (e, id) => {
     let checked = e.target.checked;
     const updatedTasks = tasks.map(task => {
       if (task.id === id) return { ...task, completed: checked };
@@ -53,7 +57,7 @@ function App() {
     message.success('Task completed successfully');
   }
 
-  const handleDelete = async id => {
+  const handleDelete = id => {
     const updatedTasks = tasks.filter(task => task.id !== id);
     setTasks(updatedTasks);
     message.success('Task deleted successfully');
@@ -62,7 +66,7 @@ function App() {
   return (
     <>
       <TaskLists tasks={tasks} taskInput={taskInput} handleCheck={handleCheck} handleChange={handleChange} handleAdd={handleAdd} isEdit={isEdit}
-        setIsEdit={setIsEdit} handleEditChange={handleEditChange} handleEditSave={handleEditSave} handleDelete={handleDelete} />
+        setIsEdit={setIsEdit} handleEditChange={handleEditChange} handleEditSave={handleEditSave} handleDelete={handleDelete}/>
 
       <Tooltip title="Completed Tasks" placement="left">
         <CheckSquareOutlined id='completed-tasks-icon' onClick={() => setOpen(true)} />
@@ -77,7 +81,11 @@ function App() {
         {
           tasks?.map((val, index) => val.completed === true ?
             <div key={index} className='completeDiv'>
+              <div style={{display:"flex"}}>
               <p style={{ color: "grey" }}>{val.task}</p>
+              <p style={{ color: "grey", marginLeft:"25px" }}>{val.date}</p>
+              </div>
+
               <Popconfirm title="Are you sure to delete this task?" onConfirm={() => handleDelete(val.id)} okText="Yes" cancelText="No">
                 <DeleteFilled style={{ cursor: "pointer", color: "#bd0033" }} />
               </Popconfirm>
