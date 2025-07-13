@@ -77,7 +77,7 @@
   .taskListContainer {
     width: 100vw;
     height: 100vh;
-    max-height: 610px;
+    max-height: 650px;
     overflow: hidden;
     overflow-y: scroll;
   }
